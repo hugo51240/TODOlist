@@ -1,6 +1,5 @@
 let deferredPrompt;
 var buttonInstall = document.getElementById("buttonInstall");
-
 var buttonPermissionNotif = document.getElementById("btnPermission");
 
 //demande permission notif
@@ -9,13 +8,12 @@ buttonPermissionNotif.addEventListener('click', async() => {
         Notification.requestPermission((status) => {
         // status is "granted", if accepted by user
             var n = new Notification('Notification', {
-                body: 'Test PWA, bonjour toi !',
+                body: 'Merci, d\'accepter les notifications',
                 //icon: '/path/to/icon.png' // optional
             });
         });
     };
 });
-
 
 
 window.addEventListener('beforeinstallprompt', (e) =>{
@@ -24,8 +22,8 @@ window.addEventListener('beforeinstallprompt', (e) =>{
     showInstallPromotion();
 });
 
-//demande confimation installation
 
+//demande confimation installation
 buttonInstall.addEventListener('click', async() =>{
     hideInstallPromotion();
     deferredPrompt.prompt();
@@ -39,6 +37,8 @@ window.addEventListener('appinstalled', () =>{
     deferredPrompt = null;
     console.log('PWA est installée');
 });
+
+
 
 function showInstallPromotion()
 {
@@ -54,3 +54,4 @@ function showErrorMessage(error){
     error = "Aucune connexion"
     return(error);
 }
+

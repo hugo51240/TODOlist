@@ -17,19 +17,21 @@
         <link  crossorigin="anonymous" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <script crossorigin="anonymous" src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>        
         <script type="text/javascript">
-            if ('serviceWorker' in navigator) {
-                // utilisation du scope par défaut.
-                navigator.serviceWorker.register('/sw.js').then(
-                  (registration) => {
-                    console.log('Service worker registration succeeded:', registration)
-                  },
-                  /*catch*/ (error) => {
-                    console.log('Service worker registration failed:', error)
-                  }
-                )
-              } else {
-                console.log('Service workers are not supported.')
-              }</script>
+          if ('serviceWorker' in navigator && "PushManager" in window) {
+            console.log("Service Worker and Push is supported");
+
+            //enregistrement du service worker
+            navigator.serviceWorker.register('/sw.js').then(
+              (registration) => {
+                console.log('Service worker est enregistré', registration);
+
+              }).catch(error => {
+                console.error('Service worker, Erreur', error);
+              });
+          } else {
+            console.warn('Message Push n\'est pas supporté');
+          }
+        </script>
     </head>
 
     <body>
