@@ -29,7 +29,9 @@ buttonPermissionCamera.addEventListener('click', async() => {
     if('mediaDevices' in navigator && 'getUserMedia' in  navigator.mediaDevices){
         //demande de permission
         navigator.mediaDevices.getUserMedia({video:true});
+        console.log('Media Device accorded');
     }
+    console.log('Erreur');
 })
 
 
