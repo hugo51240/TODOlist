@@ -12,7 +12,7 @@ window.addEventListener('beforeinstallprompt', (e) =>{
 
 //demande permission notif
 buttonPermissionNotif.addEventListener('click', async() => {
-    hideNotif();
+    //hideNotif();
     if (window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission((status) => {
         // status is "granted", if accepted by user
