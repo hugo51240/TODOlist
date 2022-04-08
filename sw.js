@@ -69,7 +69,7 @@ const STATIC_CACHE_NAME = "todosApp.v0";
   self.addEventListener('push', event => {
     const title = event.data.text();
     const options = {
-      body: 'Coucou',
+      body: 'Ajout d\'une tache',
       icon: "icon/favicon-32x32-seochecker-manifest-608.png",
       requireInteraction: true,
     }
