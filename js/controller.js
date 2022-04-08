@@ -8,7 +8,7 @@
     startSpinner();
     
     //fetch fresh data
-    var networkUpdate = fetch('http://127.0.0.1:5501/').then(function(response){
+    var networkUpdate = fetch('https://clinquant-truffle-b2689f.netlify.app/').then(function(response){
         return response.json();
     }).then(function(data)
     {
@@ -19,7 +19,7 @@
     //fetch cached data
     // 'https://clinquant-truffle-b2689f.netlify.app/'
     // 'http://127.0.0.1:5501/'
-    caches.match('http://127.0.0.1:5501/').then(function(response)
+    caches.match('https://clinquant-truffle-b2689f.netlify.app/').then(function(response)
     {
         if(!response)throw Error("no data");
         return response.json;
