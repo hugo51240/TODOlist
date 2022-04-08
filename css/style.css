@@ -206,3 +206,7 @@ label{
     }
   }
 
+  .bouton{
+    flex-direction: row;
+    text-align-last: center;
+  }

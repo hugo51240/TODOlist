@@ -1,19 +1,20 @@
 {
 	"name": "todolist",
-	"start_url": "/",
+	"short_name": "todo",
+	"description": "application avec affichant les taches à faire rentrées au préalable.",	"start_url": "/index.html?from=homescreen",
 	"scope":"/",
 	"lang": "fr",
 	"background_color": "#00aae7",
 	"theme_color": "#00aae7",
 	"dir": "ltr",
 	"display": "standalone",
-	"orientation": "any",
+	"orientation": "portrait  ",
 	"icons": [
 		{
 			"src": "/icon/android-icon-192x192-seochecker-manifest-608.png",
 			"type": "image/png",
 			"sizes": "192x192",
-			"purpose": "any maskable"
+			"purpose": " maskable"
 		},
 		{
 			"src": "/icon/apple-icon-180x180-seochecker-manifest-608.png",

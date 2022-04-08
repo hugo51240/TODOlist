@@ -1,7 +1,7 @@
 let deferredPrompt;
 var buttonInstall = document.getElementById("buttonInstall");
 var buttonPermissionNotif = document.getElementById("btnPermission");
-
+var buttonPermissionCamera = document.getElementById("btnPermCamera");
 
 window.addEventListener('beforeinstallprompt', (e) =>{
     e.preventDefault();
@@ -9,7 +9,7 @@ window.addEventListener('beforeinstallprompt', (e) =>{
     showInstallPromotion();
 });
 
-
+showNotif();
 //demande permission notif
 buttonPermissionNotif.addEventListener('click', async() => {
     hideNotif();
@@ -24,6 +24,14 @@ buttonPermissionNotif.addEventListener('click', async() => {
     };
 });
 
+buttonPermissionCamera.addEventListener('click', async() => {
+    //vérifie la prise en charge
+    if('mediaDevices' in navigator && 'getUserMedia' in  navigator.mediaDevices){
+        //demande de permission
+        navigator.mediaDevices.getUserMedia({video:true});
+    }
+})
+
 
 //demande confimation installation
 buttonInstall.addEventListener('click', async() =>{
@@ -34,7 +42,7 @@ buttonInstall.addEventListener('click', async() =>{
 
 
 //détecte si le pwa est bien installé
-window.addEventListener('appinstalled', () =>{
+window.addEventListener('appinstalled', (e) =>{
     hideInstallPromotion();
     deferredPrompt = null;
     console.log('PWA est installée');
@@ -45,7 +53,6 @@ window.addEventListener('appinstalled', () =>{
 function showInstallPromotion()
 {
     buttonInstall.classList.remove("hidden");
-    buttonPermissionNotif.classList.remove("hidden");
 }
 
 function hideInstallPromotion()
@@ -53,6 +60,9 @@ function hideInstallPromotion()
     buttonInstall.classList.add("hidden");
 }
 
+function showNotif() {
+    buttonPermissionNotif.classList.remove("hidden");
+}
 function hideNotif(){
     buttonPermissionNotif.classList.add("hidden");
 
