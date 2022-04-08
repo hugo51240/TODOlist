@@ -2,6 +2,14 @@ let deferredPrompt;
 var buttonInstall = document.getElementById("buttonInstall");
 var buttonPermissionNotif = document.getElementById("btnPermission");
 
+
+window.addEventListener('beforeinstallprompt', (e) =>{
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallPromotion();
+});
+
+
 //demande permission notif
 buttonPermissionNotif.addEventListener('click', async() => {
     hideNotif();
@@ -14,13 +22,6 @@ buttonPermissionNotif.addEventListener('click', async() => {
             });
         });
     };
-});
-
-
-window.addEventListener('beforeinstallprompt', (e) =>{
-    e.preventDefault();
-    deferredPrompt = e;
-    showInstallPromotion();
 });
 
 
