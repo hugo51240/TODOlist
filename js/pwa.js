@@ -2,9 +2,17 @@ let deferredPrompt;
 var buttonInstall = document.getElementById("buttonInstall");
 var buttonPermissionNotif = document.getElementById("btnPermission");
 
+
+window.addEventListener('beforeinstallprompt', (e) =>{
+    e.preventDefault();
+    deferredPrompt = e;
+    showInstallPromotion();
+});
+
+
 //demande permission notif
 buttonPermissionNotif.addEventListener('click', async() => {
-    hideInstallPromotion();
+    hideNotif();
     if (window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission((status) => {
         // status is "granted", if accepted by user
@@ -14,13 +22,6 @@ buttonPermissionNotif.addEventListener('click', async() => {
             });
         });
     };
-});
-
-
-window.addEventListener('beforeinstallprompt', (e) =>{
-    e.preventDefault();
-    deferredPrompt = e;
-    showInstallPromotion();
 });
 
 
@@ -44,11 +45,17 @@ window.addEventListener('appinstalled', () =>{
 function showInstallPromotion()
 {
     buttonInstall.classList.remove("hidden");
+    buttonPermissionNotif.classList.remove("hidden");
 }
 
 function hideInstallPromotion()
 {
     buttonInstall.classList.add("hidden");
+}
+
+function hideNotif(){
+    buttonPermissionNotif.classList.add("hidden");
+
 }
 
 function showErrorMessage(error){
