@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <title>PWA - TodoList</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="author" content="Didier Gillard">
+        <meta name="keywords" content="ressources pédagogiques, programmation Web, DUT informatique, IUT Reims, Progressive Web App, Javascript">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#87c6f7">
+        <meta name="description" content="todolist">
+        <link rel="stylesheet" href="css/style.css" type="text/css"/>
+        <link rel="stylesheet" href="css/background.css" type="text/css">
+        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="serviceWorker" href="/sw.js">
+        <link rel="apple-touch-icon" href="/icon/favicon-32x32-seochecker-manifest-608.png">
+        <link crossorigin="anonymous" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+        <link  crossorigin="anonymous" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <script crossorigin="anonymous" src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>        
+        <script type="text/javascript">
+            if ('serviceWorker' in navigator) {
+                // utilisation du scope par défaut.
+                navigator.serviceWorker.register('/sw.js').then(
+                  (registration) => {
+                    console.log('Service worker registration succeeded:', registration)
+                  },
+                  /*catch*/ (error) => {
+                    console.log('Service worker registration failed:', error)
+                  }
+                )
+              } else {
+                console.log('Service workers are not supported.')
+              }</script>
+    </head>
+
+    <body>
+
+      <div class="mdc-banner" role="banner">
+        <div class="mdc-banner__content"
+            role="alertdialog"
+            aria-live="assertive">
+          <div class="mdc-banner__graphic-text-wrapper">
+            <div class="mdc-banner__text">
+              Il y a un problème réseau
+            </div>
+          </div>
+          <div class="mdc-banner__actions">
+            <button type="button" id="butRéseau" class="mdc-button mdc-banner__primary-action">
+              <div class="mdc-button__ripple"></div>
+              <div class="mdc-button__label">OK</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+        <header>
+            <h1>My Todo List</h1>
+        </header>
+        
+        <section class="form">
+            <form name="addTodo">
+                <label for="todo">Todo</label>
+                <input class="zoneText"type="text" name="todo" id="todo"/>
+                <input class="Add" type="submit" value="Ajouter" />
+            </form>
+            
+        </section>
+        <section class="todos">
+        </section>
+        <div class="hidden" id="loader">Loading...</div>
+
+        <button class="hidden" id="buttonInstall" type="button">Installer l'application</button>
+
+        <!-- button demande notif -->
+        <button id="btnPermission" type="button">Notif</button>
+
+        <aside class="mdc-snackbar">
+          <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
+            <div class="mdc-snackbar__label" aria-atomic="false">
+              Ressayer dans 5 secondes.
+            </div>
+            <div class="mdc-snackbar__actions" aria-atomic="true">
+              <button type="button" id="butRefresh" class="mdc-button mdc-snackbar__action">
+                <div class="mdc-button__ripple"></div>
+                <span class="mdc-button__label">Retry</span>
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <script src="js/ihm.js" type='application/javascript'></script>
+        <script src="js/apiRequest.js" type='application/javascript'></script>
+        <script src="js/controller.js" type='application/javascript'></script>
+        <script src="js/pwa.js" type="application/javascript"></script>
+        <script src="/notif.js" defer></script>
+    </body>
+</html>
