@@ -4,6 +4,7 @@ var buttonPermissionNotif = document.getElementById("btnPermission");
 
 //demande permission notif
 buttonPermissionNotif.addEventListener('click', async() => {
+    hideNotif();
     if (window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission((status) => {
         // status is "granted", if accepted by user
@@ -43,11 +44,17 @@ window.addEventListener('appinstalled', () =>{
 function showInstallPromotion()
 {
     buttonInstall.classList.remove("hidden");
+    buttonPermissionNotif.classList.remove("hidden");
 }
 
 function hideInstallPromotion()
 {
     buttonInstall.classList.add("hidden");
+}
+
+function hideNotif(){
+    buttonPermissionNotif.classList.add("hidden");
+
 }
 
 function showErrorMessage(error){
