@@ -1,7 +1,11 @@
+//#region Variables
 let deferredPrompt;
 var buttonInstall = document.getElementById("buttonInstall");
 var buttonPermissionNotif = document.getElementById("btnPermission");
 var buttonPermissionCamera = document.getElementById("btnPermCamera");
+var buttonReseau = document.getElementById('butRéseau');
+var buttonRefresh = document.getElementById('butRefresh');
+//#endregion
 
 
 window.addEventListener('beforeinstallprompt', (e) =>{
@@ -11,7 +15,9 @@ window.addEventListener('beforeinstallprompt', (e) =>{
 });
 
 showNotif();
-//demande permission notif
+/**
+ * demande permission notif
+ */
 buttonPermissionNotif.addEventListener('click', async() => {
     hideNotif();
     if (window.Notification && Notification.permission !== "denied") {
@@ -24,7 +30,6 @@ buttonPermissionNotif.addEventListener('click', async() => {
         });
     };
 });
-
 
 //lien vers site pour exemple complet utilisation camera et save image
 // https://codes-sources.commentcamarche.net/faq/11265-recuperer-et-sauvegarder-un-cliche-avec-la-webcam-grace-a-l-api-mediadevices
@@ -42,8 +47,9 @@ buttonPermissionCamera.addEventListener('click', async() => {
     
 })
 
-
-//demande confimation installation
+/**
+ * demande confimation installation
+ */
 buttonInstall.addEventListener('click', async() =>{
     hideInstallPromotion();
     deferredPrompt.prompt();
@@ -51,14 +57,28 @@ buttonInstall.addEventListener('click', async() =>{
 });
 
 
-//détecte si le pwa est bien installé
+/**
+ * détecte si le pwa est bien installé
+ */
 window.addEventListener('appinstalled', (e) =>{
     hideInstallPromotion();
     deferredPrompt = null;
     console.log('PWA est installée');
 });
 
+window.addEventListener('offline', event => {
+    showReseau();
+})
 
+buttonReseau.addEventListener('click', async() => {
+    hideReseau();
+})
+
+//#region functions
+
+/**
+ * Fonction qui gère la class hidden
+ */
 function showInstallPromotion()
 {
     buttonInstall.classList.remove("hidden");
@@ -74,15 +94,34 @@ function showNotif() {
 }
 function hideNotif(){
     buttonPermissionNotif.classList.add("hidden");
-
 }
+
+function showReseau() {
+    buttonReseau.classList.remove("hidden");
+}
+function hideReseau(){
+    buttonReseau.classList.add("hidden");
+}
+
+/**
+ * Autres fonctions
+ */
 
 function showErrorMessage(error){
     error = "Aucune connexion"
     return(error);
 }
 
-// Mise en marche de la caméra
+function refresh(){
+    window.location.reload();
+}
+//#endregion
+
+//#region Caméra
+
+/**
+ * Mise en marche de la caméra
+ */
 function ouvrir_camera(){
     navigator.mediaDevices.getUserMedia({audio:false, video:{width:400,facingMode:{exact:'environment'}}}).then(function(mediaStream) {
         // affichage video dans une balise html <video>
@@ -103,7 +142,9 @@ function ouvrir_camera(){
 }
 
 
-// Prise de photo
+/**
+ * Prise de photo
+ */
 function photo(){
     var video = document.getElementById("sourcevid");
     var canvas1 = document.getElementById("cvs");
@@ -113,7 +154,9 @@ function photo(){
     ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 }
 
-// Stockage local de l'image
+/**
+ * Stockage local de l'image
+ */
 function sauvegarder(){
     if(navigator.msSaveOrOpenBlob){
         var blobObject = document.getElementById("cvs").msBlob();
@@ -129,7 +172,9 @@ function sauvegarder(){
     }
 }
 
-// Stockage serveur de l'image avant envoi
+/**
+ * Stockage serveur de l'image avant envoi
+ */
 function prepareEnvoi(){
     var canvas = document.getElementById("cvs");
     canvas.toBlob(function(blob){envoi(blob)}, "image/jpeg");
@@ -156,7 +201,9 @@ function envoi(blob) {
 }
 
 
-// Arrêt de la caméra
+/**
+ * Arrêt de la caméra
+ */
 function fermer(){
     var video = document.getElementById("sourcevid");
     var mediaStream = video.srcObject;
@@ -169,3 +216,6 @@ function fermer(){
     });
     video.srcObject = null;
 }
+
+//#endregion
+
