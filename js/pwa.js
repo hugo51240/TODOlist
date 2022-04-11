@@ -33,7 +33,7 @@ buttonPermissionCamera.addEventListener('click', async() => {
         //demande de permission
         console.log('Media Device accorded');
         ouvrir_camera();
-        setTimeout(fermer, 5000);
+        setTimeout(fermer, 10000,"caméra fermer");
         
     }
     else{
