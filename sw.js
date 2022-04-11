@@ -1,6 +1,7 @@
 const STATIC_CACHE_NAME = "todosApp.v0";
  
   this.addEventListener('install',function(event){
+    self.skipWaiting();
       event.waitUntil(
           caches.open(STATIC_CACHE_NAME).then(function(cache){
               return cache.addAll([
@@ -41,12 +42,11 @@ const STATIC_CACHE_NAME = "todosApp.v0";
 
   self.addEventListener('activate', function(event) {
     event.waitUntil(
-      caches.keys().then(function(cacheNames) {
+      caches.keys().then(cacheNames => {
         return Promise.all(
-          cacheNames.filter(function(cacheName) {
-            return cacheName !== STATIC_CACHE_NAME;
-          }).map(function(cacheName) {
-            return caches.delete(cacheName);
+          cacheNames.map(cacheName => {
+            if(cacheName !== STATIC_CACHE_NAME)
+              return caches.delete(cacheName);
           })
         );
       })

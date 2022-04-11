@@ -33,8 +33,6 @@ buttonPermissionCamera.addEventListener('click', async() => {
         //demande de permission
         console.log('Media Device accorded');
         ouvrir_camera();
-
-        
     }
     else{
         console.log('Erreur, media device n\'est pas supporter');
