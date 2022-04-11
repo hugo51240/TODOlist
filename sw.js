@@ -72,6 +72,8 @@ const STATIC_CACHE_NAME = "todosApp.v0";
       body: 'Ajout d\'une tache',
       icon: "icon/favicon-32x32-seochecker-manifest-608.png",
       requireInteraction: true,
+      actions: [{action:"view", title:"View"},
+      {action:"close", title:"Close"}]      
     }
     event.waitUntil(
       self.registration.showNotification(title,options)
