@@ -17,7 +17,7 @@
     });
     
     //fetch cached data
-    // 'https://clinquant-truffle-b2689f.netlify.app/'
+    // reprendre le http generer par netilfy
     // 'http://127.0.0.1:5501/'
     caches.match('https://clinquant-truffle-b2689f.netlify.app/').then(function(response)
     {
