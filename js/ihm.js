@@ -119,6 +119,10 @@ function showErrorMessage(error)
 function setOffLineMode(){
     const banner = new MDCBanner(document.querySelector('.mdc-banner'))
     banner.open();
+    var réseau = document.getElementById('butRéseau');
+    if(réseau.click){
+        banner.close();
+    }
     
 }
 

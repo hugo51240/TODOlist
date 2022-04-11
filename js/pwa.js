@@ -3,6 +3,7 @@ var buttonInstall = document.getElementById("buttonInstall");
 var buttonPermissionNotif = document.getElementById("btnPermission");
 var buttonPermissionCamera = document.getElementById("btnPermCamera");
 
+
 window.addEventListener('beforeinstallprompt', (e) =>{
     e.preventDefault();
     deferredPrompt = e;
@@ -57,9 +58,6 @@ window.addEventListener('appinstalled', (e) =>{
     console.log('PWA est installée');
 });
 
-function refresh(){
-    window.location.reload();
-}
 
 function showInstallPromotion()
 {
