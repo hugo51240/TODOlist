@@ -130,6 +130,9 @@ function setOnLineMode()
 {
     const snackbar = new Snackbar(document.querySelector('.mdc-snackbar'))
     snackbar.open();
+    var but = document.querySelector('butRefresh');
+    const refreshPage = () => {location.reload();}
+    but.addEventListener('click',refreshPage);
 }
 
 function disabledTodoActions()
