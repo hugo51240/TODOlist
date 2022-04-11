@@ -86,7 +86,7 @@ function showErrorMessage(error){
 
 // Mise en marche de la caméra
 function ouvrir_camera(){
-    navigator.mediaDevices.getUserMedia({audio:false, video:true}).then(function(mediaStream) {
+    navigator.mediaDevices.getUserMedia({audio:false, video:{width:400,facingMode:{exact:'environment'}}}).then(function(mediaStream) {
         // affichage video dans une balise html <video>
         var video = document.getElementById('sourcevid');
         video.srcObject = mediaStream;
@@ -161,7 +161,7 @@ function envoi(blob) {
 // Arrêt de la caméra
 function fermer(){
     var video = document.getElementById("sourcevid");
-    var mediaStream = video.srcobject;
+    var mediaStream = video.srcObject;
     console.log(mediaStream);
     var tracks = mediaStream.getTracks();
     console.log(tracks[0]);
