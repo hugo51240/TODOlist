@@ -57,7 +57,9 @@ window.addEventListener('appinstalled', (e) =>{
     console.log('PWA est installée');
 });
 
-
+function refresh(){
+    window.location.reload();
+}
 
 function showInstallPromotion()
 {
