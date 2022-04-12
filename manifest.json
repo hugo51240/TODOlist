@@ -1,7 +1,8 @@
 {
 	"name": "todolist",
 	"short_name": "todo",
-	"description": "application avec affichant les taches à faire rentrées au préalable.",	"start_url": "/index.html?from=homescreen",
+	"description": "application avec affichant les taches à faire rentrées au préalable.",	
+	"start_url": "/index.html",
 	"scope":"/",
 	"lang": "fr",
 	"background_color": "#00aae7",

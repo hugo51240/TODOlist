@@ -1,24 +1,23 @@
 const STATIC_CACHE_NAME = "todosApp.v0";
  
-  this.addEventListener('install',function(event){
-    self.skipWaiting();
-      event.waitUntil(
-          caches.open(STATIC_CACHE_NAME).then(function(cache){
-              return cache.addAll([
-                  '/',
-                  '/index.html',
-                  '/css/style.css',
-                  '/css/background.css',
-                  '/js/controller.js',
-                  '/js/ihm.js',
-                  '/js/apiRequest.js',
-                  '/js/pwa.js',
-                  '/manifest.webmanifest',
-                  '/notif.js',                 
-              ]);
-          })
-      );
-  });
+this.addEventListener('install',function(event){
+  self.skipWaiting();
+    event.waitUntil(
+        caches.open(STATIC_CACHE_NAME).then(function(cache){
+            return cache.addAll([
+                '/',
+                '/index.html',
+                '/css/style.css',
+                '/css/background.css',
+                '/js/controller.js',
+                '/js/ihm.js',
+                '/js/apiRequest.js',
+                '/js/pwa.js',
+                '/manifest.webmanifest'      
+            ]);
+        }) 
+    );
+});
   
 
   self.addEventListener("fetch", (event) => {
@@ -72,8 +71,9 @@ const STATIC_CACHE_NAME = "todosApp.v0";
       body: 'Ajout d\'une tache',
       icon: "icon/favicon-32x32-seochecker-manifest-608.png",
       requireInteraction: true,
-      actions: [{action:"view", title:"View"},
-      {action:"close", title:"Close"}]      
+      actions: [
+        {action:"view", title:"View"},
+        {action:"close", title:"Close"}]      
     }
     event.waitUntil(
       self.registration.showNotification(title,options)

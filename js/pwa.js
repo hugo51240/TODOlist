@@ -23,6 +23,7 @@ buttonPermissionNotif.addEventListener('click', async() => {
     if (window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission((status) => {
         // status is "granted", if accepted by user
+            console.log('affichage notif');
             var n = new Notification('Notification', {
                 body: 'Merci, d\'accepter les notifications',
                 //icon: '/path/to/icon.png' // optional

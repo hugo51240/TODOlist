@@ -8,9 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#87c6f7">
         <meta name="description" content="todolist">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default / black">
         <link rel="stylesheet" href="css/style.css" type="text/css"/>
         <link rel="stylesheet" href="css/background.css" type="text/css">
-        <link rel="manifest" href="/manifest.webmanifest">
+        <link rel="manifest" href="/manifest.json">
         <link rel="serviceWorker" href="/sw.js">
         <link rel="apple-touch-icon" href="/icon/favicon-32x32-seochecker-manifest-608.png">
         <link crossorigin="anonymous" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
@@ -19,15 +21,16 @@
         <script type="text/javascript">
           if ('serviceWorker' in navigator && "PushManager" in window) {
             console.log("Service Worker and Push is supported");
-
-            //enregistrement du service worker
-            navigator.serviceWorker.register('/sw.js').then(
-              (registration) => {
+            window.addEventListener('load', () => {
+              //enregistrement du service worker
+              navigator.serviceWorker.register('/sw.js')
+              .then(registration => {
                 console.log('Service worker est enregistré', registration);
 
               }).catch(error => {
                 console.error('Service worker, Erreur', error);
               });
+            })
           } else {
             console.warn('Message Push n\'est pas supporté');
           }
