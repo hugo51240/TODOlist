@@ -172,11 +172,12 @@ function displayNotif() {
  */
 function notif(){
     const options = {
-        body: "Test Notification + test focus",
+        body: "Test Notification + test focus2",
         icon: "/icon/check.png"
     };
-    Swregistration.showNotification("PWA Notification!", options).focus();
     hideNotif();
+    Swregistration.showNotification("PWA Notification!", options);
+    
 }
 //#endregion
 
