@@ -159,7 +159,7 @@ function displayNotif() {
     else if (window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission(status => {
             if(status === "granted") {
-                notif();
+                notif().focus();
             }else {
                 alert("Vous avez refusé les notifications. Aller dans vos paramètres pour les accpeter.");
             }
@@ -172,7 +172,7 @@ function displayNotif() {
  */
 function notif(){
     const options = {
-        body: "Test Notification + test focus2",
+        body: "Test Notification + test focus 3",
         icon: "/icon/check.png"
     };
     hideNotif();
