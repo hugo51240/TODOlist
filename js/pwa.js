@@ -1,5 +1,7 @@
 //#region Variables
 let deferredPrompt;
+let Swregistration = null;
+
 var buttonInstall = document.getElementById("buttonInstall");
 var buttonPermissionNotif = document.getElementById("btnPermission");
 var buttonPermissionCamera = document.getElementById("btnPermCamera");
@@ -7,29 +9,23 @@ var buttonReseau = document.getElementById('butRéseau');
 var buttonRefresh = document.getElementById('butRefresh');
 //#endregion
 
+/**
+ * Lancement de function
+ */
+
+ showNotif();
+ initialisationSW();
+
+ /**
+  * fin lancement de function
+  */
+
+
 
 window.addEventListener('beforeinstallprompt', (e) =>{
     e.preventDefault();
     deferredPrompt = e;
     showInstallPromotion();
-});
-
-showNotif();
-/**
- * demande permission notif
- */
-buttonPermissionNotif.addEventListener('click', async() => {
-    hideNotif();
-    if (window.Notification && Notification.permission !== "denied") {
-        Notification.requestPermission((status) => {
-        // status is "granted", if accepted by user
-            console.log('affichage notif');
-            var n = new Notification('Notification', {
-                body: 'Merci, d\'accepter les notifications',
-                //icon: '/path/to/icon.png' // optional
-            });
-        });
-    };
 });
 
 //lien vers site pour exemple complet utilisation camera et save image
@@ -66,6 +62,9 @@ window.addEventListener('appinstalled', (e) =>{
     deferredPrompt = null;
     console.log('PWA est installée');
 });
+///
+
+
 
 window.addEventListener('offline', event => {
     showReseau();
@@ -74,6 +73,7 @@ window.addEventListener('offline', event => {
 buttonReseau.addEventListener('click', async() => {
     hideReseau();
 })
+
 
 //#region functions
 
@@ -115,6 +115,67 @@ function showErrorMessage(error){
 
 function refresh(){
     window.location.reload();
+}
+
+/**
+ * Enregistrement du service worker
+ */
+function initialisationSW(){
+    if ('serviceWorker' in navigator && "PushManager" in window) {
+        console.log("Service Worker and Push is supported");
+
+        //enregistrement du service worker
+        navigator.serviceWorker.register('/sw.js')
+        .then(registration => {
+            console.log('Service worker est enregistré', registration);
+
+            Swregistration = registration;
+            initalizeUI();
+        }).catch(error => {
+            console.error('Service worker, Erreur', error);
+        });
+    } else {
+        console.warn('Message Push n\'est pas supporté');
+        buttonPermissionNotif.textContent = "Push NOt Supported";
+    }
+}
+
+/**
+ * action click
+ */
+function initalizeUI(){
+    buttonPermissionNotif.addEventListener('click', () => {
+        displayNotif();
+    });
+}
+
+/**
+ * Gére l'affichage de la notif
+ */
+function displayNotif() {
+    if(window.Notification && Notification.permission === "granted") {
+        notif();
+    }
+    else if (window.Notification && Notification.permission !== "denied") {
+        Notification.requestPermission(status => {
+            if(status === "granted") {
+                notif();
+            }else {
+                alert("Vous avez refusé les notifications. Aller dans vos paramètres pour les accpeter.");
+            }
+        });
+    }
+}
+
+/**
+ * Création notif
+ */
+function notif(){
+    const options = {
+        body: "Test Notification",
+        icon: "/icon/check.png"
+    };
+    Swregistration.showNotification("PWA Notification!", options);
 }
 //#endregion
 
