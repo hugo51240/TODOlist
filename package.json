@@ -12,6 +12,8 @@
   "dependencies": {
     "body-parser": "^1.20.0",
     "express": "^4.17.3",
+    "push.js": "^1.0.12",
+    "toastr": "^2.1.4",
     "web-push": "^3.4.5"
   }
 }

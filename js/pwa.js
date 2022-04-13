@@ -154,7 +154,7 @@ function initalizeUI(){
  */
 function displayNotif() {
     if(window.Notification && Notification.permission === "granted") {
-        notif().focus();
+        notif();
     }
     else if (window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission(status => {
@@ -172,7 +172,7 @@ function displayNotif() {
  */
 function notif(){
     const options = {
-        body: "Test Notification + test focus 4",
+        body: "Test Notification + test focus 5",
         icon: "/icon/check.png"
     };
     hideNotif();
@@ -283,3 +283,4 @@ function fermer(){
 
 //#endregion
 
+Push.create('Ma super notification'); 
