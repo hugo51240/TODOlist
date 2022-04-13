@@ -283,14 +283,3 @@ function fermer(){
 
 //#endregion
  
-
-//test notif animé
-const button = document.getElementById('testAnime');
-const toast = document.getElementById('notification');
-
-button.addEventListener("click", () => {
-    toast.classList.add("show");
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2000);
-  });
