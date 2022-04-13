@@ -175,7 +175,7 @@ function notif(){
         body: "Test Notification",
         icon: "/icon/check.png"
     };
-    Swregistration.showNotification("PWA Notification!", options);
+    Swregistration.showNotification("PWA Notification!", options).focus();
     hideNotif();
 }
 //#endregion
