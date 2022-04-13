@@ -61,6 +61,7 @@ this.addEventListener('install',function(event){
       notification.close();
     } else {
       clients.openWindow('https://clinquant-truffle-b2689f.netlify.app/');
+      notification.close();
     }
   });
 
