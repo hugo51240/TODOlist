@@ -176,6 +176,7 @@ function notif(){
         icon: "/icon/check.png"
     };
     Swregistration.showNotification("PWA Notification!", options);
+    hideNotif();
 }
 //#endregion
 
