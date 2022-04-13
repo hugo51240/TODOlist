@@ -60,7 +60,7 @@ this.addEventListener('install',function(event){
     if(action === 'close') {
       notification.close();
     } else {
-      clients.openWindow('http://youtube.com');
+      clients.openWindow('https://clinquant-truffle-b2689f.netlify.app/');
     }
   });
 
