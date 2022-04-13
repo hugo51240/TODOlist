@@ -154,12 +154,12 @@ function initalizeUI(){
  */
 function displayNotif() {
     if(window.Notification && Notification.permission === "granted") {
-        notif();
+        notif().focus();
     }
     else if (window.Notification && Notification.permission !== "denied") {
         Notification.requestPermission(status => {
             if(status === "granted") {
-                notif().focus();
+                notif();
             }else {
                 alert("Vous avez refusé les notifications. Aller dans vos paramètres pour les accpeter.");
             }
@@ -172,7 +172,7 @@ function displayNotif() {
  */
 function notif(){
     const options = {
-        body: "Test Notification + test focus 3",
+        body: "Test Notification + test focus 4",
         icon: "/icon/check.png"
     };
     hideNotif();
