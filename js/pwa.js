@@ -283,4 +283,5 @@ function fermer(){
 
 //#endregion
 
-Push.create('Ma super notification'); 
+window.onload = Push.create('Ma super notification');
+ 
