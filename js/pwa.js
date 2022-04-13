@@ -282,6 +282,4 @@ function fermer(){
 }
 
 //#endregion
-
-window.onload = Push.create('Ma super notification');
  
