@@ -141,7 +141,7 @@ function initialisationSW(){
 }
 
 /**
- * action click
+ * action click sur le bouton Notif
  */
 function initalizeUI(){
     buttonPermissionNotif.addEventListener('click', () => {
@@ -168,7 +168,7 @@ function displayNotif() {
 }
 
 /**
- * Création notif
+ * Création de la notif
  */
 function notif(){
     const options = {
@@ -283,3 +283,14 @@ function fermer(){
 
 //#endregion
  
+
+//test notif animé
+const button = document.querySelector('button');
+const toast = document.querySelector('#notification');
+
+button.addEventListener("click", () => {
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2000);
+  });

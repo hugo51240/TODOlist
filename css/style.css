@@ -210,3 +210,21 @@ label{
     flex-direction: row;
     text-align-last: center;
   }
+
+
+
+
+  #notification{
+    position: fixed;
+    bottom: -8rem;
+    color: #ff4754;
+    background: #000;
+    padding: 1.2rem 2.4rem;
+    border-radius: 0.2rem;
+    box-shadow: 3px 6px 12px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s;
+  }
+
+  #notification.show{
+    bottom : 2rem;
+  }
