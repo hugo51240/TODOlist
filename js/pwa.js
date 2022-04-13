@@ -285,8 +285,8 @@ function fermer(){
  
 
 //test notif animé
-const button = document.querySelector('button');
-const toast = document.querySelector('#notification');
+const button = document.getElementById('testAnime');
+const toast = document.getElementById('notification');
 
 button.addEventListener("click", () => {
     toast.classList.add("show");
