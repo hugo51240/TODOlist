@@ -173,7 +173,8 @@ function displayNotif() {
 function notif(){
     const options = {
         body: "Test Notification + test focus 5",
-        icon: "/icon/check.png"
+        icon: "/icon/check.png",
+        vibrate: [100,50,100]
     };
     hideNotif();
     Swregistration.showNotification("PWA Notification!", options);
