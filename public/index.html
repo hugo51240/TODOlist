@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
         <title>PWA - TodoList</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta charset="utf-8">
         <meta name="author" content="Didier Gillard">
         <meta name="keywords" content="ressources pédagogiques, programmation Web, DUT informatique, IUT Reims, Progressive Web App, Javascript">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,11 +10,11 @@
         <meta name="description" content="todolist">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default / black">
-        <link rel="stylesheet" href="css/style.css" type="text/css"/>
-        <link rel="stylesheet" href="css/background.css" type="text/css">
-        <link rel="manifest" href="/manifest.webmanifest">
-        <link rel="serviceWorker" href="/sw.js">
-        <link rel="apple-touch-icon" href="/icon/favicon-32x32-seochecker-manifest-608.png">
+        <link rel="stylesheet" href="css/background.css" type="text/css"/>
+        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link rel="manifest" href="manifest.webmanifest">
+        <link rel="serviceWorker" href="sw.js">
+        <link rel="apple-touch-icon" href="icon/favicon-32x32-seochecker-manifest-608.png">
         <link crossorigin="anonymous" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
         <link  crossorigin="anonymous" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <script crossorigin="anonymous" src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
@@ -114,7 +114,9 @@
           // Import the functions you need from the SDKs you need
           import { initializeApp } from "firebase/app";
           import { getAnalytics } from "firebase/analytics";
-          import { getFirestore, collection, getDocs } from "firebase/firestore/lite"
+          import { getAuth } from "firebase/auth";
+          import { getMessaging, getToken } from "firebase/messaging";
+          import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
           // TODO: Add SDKs for Firebase products that you want to use
           // https://firebase.google.com/docs/web/setup#available-libraries
         
@@ -134,6 +136,8 @@
           const app = initializeApp(firebaseConfig);
           const analytics = getAnalytics(app);
           const db = getFirestore(app);
+          const auth = getAuth(app);
+          const messaging = getMessaging(app);
 
           //get a list of cities from your database
           async function getCities(db) {
@@ -142,6 +146,30 @@
             const cityList = citySnapshot.docs.map(doc => doc.data());
             return cityList;
           }
+
+          // Get registration token. Initially this makes a network call, once retrieved
+          // subsequent calls to getToken will return from cache.
+          getToken(messaging, { vapidKey: 'BCbd4yZ8kwjq8xrGdKgll_T5RPltTAqJ5qtAQ2dHGgMdNAhJErrC24XI6TxpBeYwcP1NodUdVQxiAmMjJ8Vo9eM' });
+
+
+          // Send push notification when user gets a new follower.
+          exports.sendNotification = functions.database.ref('/followers/{userUID}/{followerUID}')
+              .onWrite((change, context) => {
+                const userUID = context.params.userUID;
+                const followerUID = context.params.followerUID;
+
+                const tokens = getUserDeviceTokens(userUID);
+                const name = getUserDisplayName(followerUID);
+
+                // Notification details.
+                const payload = {
+                  notification: {
+                    title: 'You have a new follower!',
+                    body: `${name} is now following you.`
+                  }
+                };
+                return admin.messaging().sendToDevice(tokens, payload);
+              });
         </script>
     </body>
 </html>

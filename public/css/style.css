@@ -132,7 +132,7 @@ label{
 
 @media all and (display-mode: standalone) {
     body {
-      background-color: yellow;
+      background-color: rgb(255, 0, 0);
     }
   }
 
