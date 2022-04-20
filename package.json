@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "firebase": "^9.6.11",
+    "firebase-messaging": "^1.0.6"
+  }
+}

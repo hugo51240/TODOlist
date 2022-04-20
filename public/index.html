@@ -1,175 +1,155 @@
 <!doctype html>
 <html lang="fr">
-    <head>
-        <title>PWA - TodoList</title>
-        <meta charset="utf-8">
-        <meta name="author" content="Didier Gillard">
-        <meta name="keywords" content="ressources pédagogiques, programmation Web, DUT informatique, IUT Reims, Progressive Web App, Javascript">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#87c6f7">
-        <meta name="description" content="todolist">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default / black">
-        <link rel="stylesheet" href="css/background.css" type="text/css"/>
-        <link rel="stylesheet" href="css/style.css" type="text/css">
-        <link rel="manifest" href="manifest.webmanifest">
-        <link rel="serviceWorker" href="sw.js">
-        <link rel="apple-touch-icon" href="icon/favicon-32x32-seochecker-manifest-608.png">
-        <link crossorigin="anonymous" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-        <link  crossorigin="anonymous" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <script crossorigin="anonymous" src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-        
 
-      </head>
+<head>
+  <title>PWA - TodoList</title>
+  <meta charset="utf-8">
+  <meta name="author" content="Didier Gillard">
+  <meta name="keywords"
+    content="ressources pédagogiques, programmation Web, DUT informatique, IUT Reims, Progressive Web App, Javascript">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#87c6f7">
+  <meta name="description" content="todolist">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default / black">
+  <link rel="stylesheet" href="./css/background.css" type="text/css" />
+  <link rel="stylesheet" href="./css/style.css" type="text/css">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="serviceWorker" href="./sw.js">
+  <link rel="apple-touch-icon" href="./icon/favicon-32x32-seochecker-manifest-608.png">
+  <link crossorigin="anonymous"
+    href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <link crossorigin="anonymous" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script crossorigin="anonymous"
+    src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+</head>
 
-    <body>
-      <div class="hidden">
-      <div class="mdc-banner" role="banner" >
-        <div class="mdc-banner__content"
-            role="alertdialog"
-            aria-live="assertive">
-          <div class="mdc-banner__graphic-text-wrapper">
-            <div class="mdc-banner__text">
-              Il y a un problème réseau
-            </div>
+<body>
+
+  <div id="token"></div>
+  <script>
+    TokenElem = document.getElementById('token');
+
+    var config = {
+      apiKey: "AIzaSyAYfl7iL49TR-UjU20GGEzPXkSC08qZLVQ",
+      authDomain: "fir-test-b22e4.firebaseapp.com",
+      databaseURL: "https://fir-test-b22e4-default-rtdb.europe-west1.firebasedatabase.app",
+      storageBucket: "fir-test-b22e4.appspot.com",
+      messagingSenderId: "23634196988",
+    };
+    firebase.initializeApp(config);
+
+    const messaging = firebase.messaging();
+    messaging
+      .requestPermission()
+      .then(function () {
+        MsgElem.innerHTML = "Notification permission granted."
+        console.log("Notification permission granted.");
+
+        // get the token in the form of promise
+        return messaging.getToken()
+      })
+      .then(function (token) {
+        TokenElem.innerHTML = "token is : " + token
+      })
+      .catch(function (err) {
+        ErrElem.innerHTML = ErrElem.innerHTML + "; " + err
+        console.log("Unable to get permission to notify.", err);
+      });
+
+    messaging.onMessage(function (payload) {
+      console.log("Message received. ", payload);
+      NotisElem.innerHTML = NotisElem.innerHTML + JSON.stringify(payload)
+    });
+  </script>
+
+
+
+  <div class="hidden">
+    <div class="mdc-banner" role="banner">
+      <div class="mdc-banner__content" role="alertdialog" aria-live="assertive">
+        <div class="mdc-banner__graphic-text-wrapper">
+          <div class="mdc-banner__text">
+            Il y a un problème réseau
           </div>
-          <div class="mdc-banner__actions">
-            <button type="button" id="butRéseau" class="mdc-button mdc-banner__primary-action">
-              <div class="mdc-button__ripple"></div>
-              <div class="mdc-button__label">OK</div>
-            </button>
-          </div>
+        </div>
+        <div class="mdc-banner__actions">
+          <button type="button" id="butRéseau" class="mdc-button mdc-banner__primary-action">
+            <div class="mdc-button__ripple"></div>
+            <div class="mdc-button__label">OK</div>
+          </button>
         </div>
       </div>
     </div>
-    
-      
-        <header>
-            <h1>My Todo List</h1>
-        </header>
-        
-        <section class="form">
-            <form name="addTodo">
-                <label for="todo">Todo</label>
-                <input class="zoneText"type="text" name="todo" id="todo"/>
-                <input class="Add" type="submit" value="Ajouter" />
-            </form>
-            
-        </section>
-        <section class="todos">
-        </section>
-        <div class="hidden" id="loader">Loading...</div>
-
-        <div class="bouton">
-          <button class="hidden" id="buttonInstall" type="button">Installer l'application</button>
-
-          <!-- bouton demande notif -->
-          <button class="hidden" id="btnPermission" type="button">Notif</button>
-
-          <!-- bouton demande camera -->
-          <div style='display:inline-block'>
-
-            <video id="sourcevid" width='400' autoplay="true"></video>
-       
-            <div id="message" style='height:20px;width:350px;margin:5px;'>message: </div>
-           </div>
-       
-           <canvas id="cvs" style='display:inline-block'></canvas>
-       
-           <div>
-            <button onclick='fermer()' >fermer camera</button>
-            <br>
-            <button onclick='photo()' >prise de photo</button>
-            <button onclick='sauvegarder()' >sauvegarder</button>
-            <button onclick='prepareEnvoi()' >envoyer</button>
-           </div>
-       
-           <div id="jaxa" style='width:80%;margin:5px;'></div>
-
-           <!-- 1er test caméra -->
-          <button id="btnPermCamera" type="button">Ouvrir Caméra</button>
-        </div>
-        
-        <aside class="mdc-snackbar">
-          <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
-            <div class="mdc-snackbar__label" aria-atomic="false">
-              Ressayer dans 5 secondes.
-            </div>
-            <div class="mdc-snackbar__actions" aria-atomic="true">
-              <button onclick="refresh()" type="button" id="butRefresh" class="mdc-button mdc-snackbar__action">
-                <div class="mdc-button__ripple"></div>
-                <span class="mdc-button__label">Retry</span>
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        <script src="js/ihm.js" type='application/javascript'></script>
-        <script src="js/apiRequest.js" type='application/javascript'></script>
-        <script src="js/controller.js" type='application/javascript'></script>
-        <script src="js/pwa.js" type="application/javascript"></script>
-        <script src="/notif.js" defer></script>
-        <!-- firebase -->
-        <script type="module">
-          // Import the functions you need from the SDKs you need
-          import { initializeApp } from "firebase/app";
-          import { getAnalytics } from "firebase/analytics";
-          import { getAuth } from "firebase/auth";
-          import { getMessaging, getToken } from "firebase/messaging";
-          import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
-          // TODO: Add SDKs for Firebase products that you want to use
-          // https://firebase.google.com/docs/web/setup#available-libraries
-        
-          // Your web app's Firebase configuration
-          // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-          const firebaseConfig = {
-            apiKey: "AIzaSyAYfl7iL49TR-UjU20GGEzPXkSC08qZLVQ",
-            authDomain: "fir-test-b22e4.firebaseapp.com",
-            projectId: "fir-test-b22e4",
-            storageBucket: "fir-test-b22e4.appspot.com",
-            messagingSenderId: "23634196988",
-            appId: "1:23634196988:web:a9465803d40335f4a3da79",
-            measurementId: "G-J7Q4CHB74B"
-          };
-        
-          // Initialize Firebase
-          const app = initializeApp(firebaseConfig);
-          const analytics = getAnalytics(app);
-          const db = getFirestore(app);
-          const auth = getAuth(app);
-          const messaging = getMessaging(app);
-
-          //get a list of cities from your database
-          async function getCities(db) {
-            const citiesCol = collection(db, 'cities');
-            const citySnapshot = await getDocs(citiesCol);
-            const cityList = citySnapshot.docs.map(doc => doc.data());
-            return cityList;
-          }
-
-          // Get registration token. Initially this makes a network call, once retrieved
-          // subsequent calls to getToken will return from cache.
-          getToken(messaging, { vapidKey: 'BCbd4yZ8kwjq8xrGdKgll_T5RPltTAqJ5qtAQ2dHGgMdNAhJErrC24XI6TxpBeYwcP1NodUdVQxiAmMjJ8Vo9eM' });
+  </div>
 
 
-          // Send push notification when user gets a new follower.
-          exports.sendNotification = functions.database.ref('/followers/{userUID}/{followerUID}')
-              .onWrite((change, context) => {
-                const userUID = context.params.userUID;
-                const followerUID = context.params.followerUID;
+  <header>
+    <h1>My Todo List</h1>
+  </header>
 
-                const tokens = getUserDeviceTokens(userUID);
-                const name = getUserDisplayName(followerUID);
+  <section class="form">
+    <form name="addTodo">
+      <label for="todo">Todo</label>
+      <input class="zoneText" type="text" name="todo" id="todo" />
+      <input class="Add" type="submit" value="Ajouter" />
+    </form>
 
-                // Notification details.
-                const payload = {
-                  notification: {
-                    title: 'You have a new follower!',
-                    body: `${name} is now following you.`
-                  }
-                };
-                return admin.messaging().sendToDevice(tokens, payload);
-              });
-        </script>
-    </body>
+  </section>
+  <section class="todos">
+  </section>
+  <div class="hidden" id="loader">Loading...</div>
+
+  <div class="bouton">
+    <button class="hidden" id="buttonInstall" type="button">Installer l'application</button>
+
+    <!-- bouton demande notif -->
+    <button class="hidden" id="btnPermission" type="button">Notif</button>
+
+    <!-- bouton demande camera -->
+    <div style='display:inline-block'>
+
+      <video id="sourcevid" width='400' autoplay="true"></video>
+
+      <div id="message" style='height:20px;width:350px;margin:5px;'>message: </div>
+    </div>
+
+    <canvas id="cvs" style='display:inline-block'></canvas>
+
+    <div>
+      <button onclick='fermer()'>fermer camera</button>
+      <br>
+      <button onclick='photo()'>prise de photo</button>
+      <button onclick='sauvegarder()'>sauvegarder</button>
+      <button onclick='prepareEnvoi()'>envoyer</button>
+    </div>
+
+    <div id="jaxa" style='width:80%;margin:5px;'></div>
+
+    <!-- 1er test caméra -->
+    <button id="btnPermCamera" type="button">Ouvrir Caméra</button>
+  </div>
+
+  <aside class="mdc-snackbar">
+    <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
+      <div class="mdc-snackbar__label" aria-atomic="false">
+        Ressayer dans 5 secondes.
+      </div>
+      <div class="mdc-snackbar__actions" aria-atomic="true">
+        <button onclick="refresh()" type="button" id="butRefresh" class="mdc-button mdc-snackbar__action">
+          <div class="mdc-button__ripple"></div>
+          <span class="mdc-button__label">Retry</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="./js/ihm.js" type='application/javascript'></script>
+  <script src="./js/apiRequest.js" type='application/javascript'></script>
+  <script src="./js/controller.js" type='application/javascript'></script>
+  <script src="./js/pwa.js" type="application/javascript"></script>
+
+
+</body>
+
 </html>
